@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Show list of shared counters"
+              "text": "Counter storage isn't set up yet."
             }
           }
         ],
