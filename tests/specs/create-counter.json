@@ -1,13 +1,13 @@
 [
   {
-    "name": "Create counter",
+    "name": "Create counter opens type choices",
     "steps": [
       {
         "expect": [
           {
-            "method": "sendMessage",
+            "method": "editMessageText",
             "payload": {
-              "text": "Start counter creation flow"
+              "text": "Choose the counter type."
             }
           }
         ],
@@ -15,6 +15,20 @@
           "callback": "create:counter"
         }
       }
+    ]
+  },
+  {
+    "name": "personal creation asks for a name and handles an unconfigured store",
+    "steps": [
+      { "send": { "callback": "create:counter" }, "expect": [{ "method": "editMessageText", "payload": { "text": "Choose the counter type." } }] },
+      { "send": { "callback": "create:type:personal" }, "expect": [{ "method": "sendMessage", "payload": { "text": "Send a name for your personal counter." } }] },
+      { "send": { "text": "Water" }, "expect": [{ "method": "sendMessage", "payload": { "text": "Counter storage isn't set up yet." } }] }
+    ]
+  },
+  {
+    "name": "non-admin cannot start a shared counter",
+    "steps": [
+      { "send": { "callback": "create:type:shared" }, "expect": [{ "method": "sendMessage", "payload": { "text": "Only a shared-counter admin can create that." } }] }
     ]
   }
 ]

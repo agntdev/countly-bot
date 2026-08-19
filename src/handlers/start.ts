@@ -12,6 +12,11 @@ const composer = new Composer<Ctx>();
 const WELCOME = "👋 Welcome! Tap a button below to get started.";
 
 composer.command("start", async (ctx) => {
+  // Starting over is the universal, discoverable escape hatch for a typed flow.
+  ctx.session.step = "idle";
+  ctx.session.draftType = undefined;
+  ctx.session.selectedCounterId = undefined;
+  ctx.session.flowStartedAt = undefined;
   await ctx.reply(WELCOME, { reply_markup: mainMenuKeyboard() });
 });
 

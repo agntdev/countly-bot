@@ -6,10 +6,15 @@ import type { StorageAdapter } from "grammy";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  step?: "idle" | "awaiting_counter_name" | "awaiting_rename" | "awaiting_set_value";
+  draftType?: "personal" | "shared";
+  selectedCounterId?: string;
+  flowStartedAt?: number;
 }
 
-export type Ctx = BotContext<Session>;
+// Worker middleware attaches the deployment bindings before handlers run. The
+// optional shape also keeps Node/harness contexts valid.
+export type Ctx = BotContext<Session> & { env?: { DB?: unknown; ADMIN_CHAT_ID?: string } };
 
 /**
  * BuildBotOptions lets a runtime-specific ENTRY POINT (never a feature handler)
